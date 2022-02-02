@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>index - 図書管理システム</title>
+	<link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+
+<body>
+	<header>
+		<h1>某図書館　図書管理システム</h1>
+		<p><a href="../../index.html">トップメニューへ戻る</a></p>
+	</header>
+
+	<main>
+		<article id="user">
+			<h2>利用者検索</h2>
+			<section id="searchEntry">
+				<h3>条件入力</h3>
+				<p>検索したい利用者の電子メールアドレスを入力して［検索］ボタンを押してください。</p>
+				<p>電子メールアドレスを入力せずに［検索］ボタンを押すと全利用者が対象となります。</p>
+				<form>
+					<input type="text" name="key" /><button formaction="./searchResultView.html" formmethod="post">検索</button>
+				</form>
+			</section>
+			<section id="searchResult">
+				<h3>検索結果</h3>
+				<table>
+					<tr>
+						<th>ID</th>
+						<th>利用者名</th>
+						<th>住所</th>
+						<th>電話番号</th>
+						<th>電子メールアドレス</th>
+						<th>生年月日</th>
+						<th>登録日</th>
+						<th>抹消日</th>
+						<th>処理選択</th>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>新宿太郎</td>
+						<td>〒160-0000 東京都新宿区新宿御苑</td>
+						<td>03-1111-1111</td>
+						<td>s-taro@gyoen.org</td>
+						<td>1954-02-24</td>
+						<td>2010-04-28</td>
+						<td></td>
+						<td>
+							<form>
+								<button formaction="./updateEntryView.html" formmethod="post">編集</button>
+								<button formaction="./deleteConfirmView.html" formmethod="post">削除</button>
+							</form>
+						</td>
+					</tr>
+				</table>
+			</section>
+		</article>
+	</main>
+
+	<footer>
+		<p id="copyright">&copy;2017-2019 XXX All right reserved.</p>
+	</footer>
+</body>
+
+</html>

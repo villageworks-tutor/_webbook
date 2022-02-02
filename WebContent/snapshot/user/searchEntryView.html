@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>index - 図書管理システム</title>
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>某図書館　図書管理システム</h1>
+    <p><a href="../../index.html">トップメニューへ戻る</a></p>
+  </header>
+
+  <main>
+    <article id="user">
+      <h2>利用者検索</h2>
+      <section id="searchEntry">
+        <h3>条件入力</h3>
+        <p>検索したい利用者の電子メールアドレスを入力して［検索］ボタンを押してください。<br />電子メールアドレスを入力せずに［検索］ボタンを押すと全利用者が対象となります。</p>
+        <form>
+          <input type="text" name="key" /><button formaction="./searchResultView.html" formmethod="get">検索</button>
+        </form>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <p id="copyright">&copy;2017-2019 XXX All right reserved.</p>
+  </footer>
+</body>
+
+</html>

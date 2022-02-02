@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<title>index - 図書管理システム</title>
+	<link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+
+<body>
+
+	<!-- フッタ領域 -->
+	<header>
+		<h1>某図書館　図書管理システム</h1>
+	</header>
+
+
+	<!-- メインコンテンツ領域 -->
+	<main>
+		<article id="auth">
+ 				<h2>パスワード変更</h2>
+				<section id="updateEntry">
+					<p>パスワードを入力して［変更］ボタンをクリックしてください。</p>
+					<form action="main.html" method="post">
+						<dl>
+							<dt>利用者カード番号</dt>
+							<dd>1205605</dd>
+						</dl>
+						<dl>
+							<dt>利用者名</dt>
+							<dd>新宿太郎</dd>
+						</dl>
+						<dl>
+							<dt>パスワード</dt>
+							<dd>
+								<input type="text" name="password" />
+							</dd>
+						</dl>
+						<button name="action" value="login">変更</button>
+					</form>
+				</section>
+			</article>
+	</main>
+
+	<!-- フッタ領域 -->
+	<footer>
+		<p id="copyright">&copy;2017-2022 XXX All right reserved.</p>
+	</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>index - 図書管理システム</title>
+	<link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+
+<body>
+	<header>
+		<h1>某図書館　図書管理システム</h1>
+		<p><a href="../../index.html">トップメニューへ戻る</a></p>
+	</header>
+
+	<main id="user">
+		<article>
+			<h2>利用者情報更新</h2>
+			<section id="updateConfirm">
+				<h3>確認</h3>
+				<p>以下の情報で変更します。</p>
+				<p>変更する場合は［更新する］ボタンをクリックしてください。また、修正する場合は［戻る］ボタンをクリックしてください。</p>
+				<form>
+					<table>
+						<tr>
+							<th>利用者カード番号</th>
+							<td>1</td>
+						</tr>
+						<tr>
+							<th>利用者名</th>
+							<td>新宿太郎</td>
+						</tr>
+						<tr>
+							<th>住所</th>
+							<td>〒160-0000　東京都新宿区新宿御苑</td>
+						</tr>
+						<tr>
+							<th>電話番号</th>
+							<td>03-1111-1111</td>
+						</tr>
+						<tr>
+							<th>生年月日</th>
+							<td>1954年 2月 24日</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<button formaction="updateCompleteView.html" formmethod="post">更新する</button>
+								<button formaction="updateEntryView.html" formmethod="post">戻る</button>
+								<input type="hidden" name="email" value="s-tarou@gyoen.org" />
+							</td>
+						</tr>
+					</table>
+				</form>
+			</section>
+		</article>
+	</main>
+
+	<footer>
+		<p id="copyright">&copy;2017-2019 XXX All right reserved.</p>
+	</footer>
+</body>
+
+</html>

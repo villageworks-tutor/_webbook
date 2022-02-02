@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+#auth {
+	form {
+		margin-left: setSizeByScale(2.5);
+	}
+	dl {
+		overflow: hidden;
+		width: setSizeByScale(35);
+		dt, dd {
+			float: left;
+		}
+		dt {
+			width: setSizeByScale(7.5);
+		}
+		dd {
+			margin-left: setSizeByScale(0.25);
+			width: setSizeByScale(20);
+			&:before {
+				content: "：";
+			}
+		}
+	}
+	#updateEntry {
+		dt {
+			width: setSizeByScale(8.0);
+			text-align: right;
+		}
+	}
+}

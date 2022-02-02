@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>index - 図書管理システム</title>
+	<link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+
+<body>
+	<header>
+		<h1>某図書館　図書管理システム</h1>
+		<p><a href="../../index.html">トップメニューへ戻る</a></p>
+	</header>
+
+	<main>
+		<article id="user">
+			<h2>利用者情報更新</h2>
+			<section id="updateEntry">
+				<form>
+					<table>
+						<tr>
+							<th>ID</th>
+							<td>1</td>
+						</tr>
+						<tr>
+							<th>利用者名</th>
+							<td>
+								<input type="text" name="name" value="新宿太郎" />
+							</td>
+						</tr>
+						<tr>
+							<th>住所</th>
+							<td>
+								〒<input type="text" name="postal" value="160-0000" /><br />
+								<textarea name="address">東京都新宿区新宿御苑</textarea>
+							</td>
+						</tr>
+						<tr>
+							<th>電話番号</th>
+							<td>
+								<input type="text" name="phone" value="03-1111-1111" />
+							</td>
+						</tr>
+						<tr>
+							<th>生年月日</th>
+							<td>
+								<select name="year">
+									<script>
+										for (i = 1900; i <= 2022; i++) {
+											if (i == 1954) {
+												document.write("<option value=\"" + i + "\" selected>" + i + "</option>");
+											} else {
+												document.write("<option value=\"" + i + "\">" + i + "</option>");
+											}
+										}
+									</script>
+								</select>年
+								<select name="month">
+									<script>
+										for (i = 1; i <= 12; i++) {
+											if (i == 2) {
+												document.write("<option value=\"" + i + "\" selected>" + i + "</option>");
+											} else {
+												document.write("<option value=\"" + i + "\">" + i + "</option>");
+											}
+										}
+									</script>
+								</select>月
+								<select name="day">
+									<script>
+										for (i = 1; i <= 31; i++) {
+											if (i == 24) {
+												document.write("<option value=\"" + i + "\" selected>" + i + "</option>");
+											} else {
+												document.write("<option value=\"" + i + "\">" + i + "</option>");
+											}
+										}
+									</script>
+								</select>日
+							</td>
+						</tr>
+						<tr>
+							<th>登録日</th>
+							<td>2010-04-28</td>
+						</tr>
+						<tr>
+							<th>抹消日</th>
+							<td>-</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<button formaction="updateConfirmView.html" formmethod="post">確認画面に進む</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</section>
+		</article>
+	</main>
+
+	<footer>
+		<p id="copyright">&copy;2017-2019 XXX All right reserved.</p>
+	</footer>
+</body>
+
+</html>
