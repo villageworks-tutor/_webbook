@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<title>index - 図書管理システム</title>
+	<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+
+<body>
+
+	<!-- フッタ領域 -->
+	<header>
+		<h1>某図書館　図書管理システム</h1>
+	</header>
+
+
+	<!-- メインコンテンツ領域 -->
+	<main>
+		<article id="auth">
+ 				<h2>ユーザ認証</h2>
+				<p>ユーザIDおよびパスワードを入力して［ログイン］ボタンをクリックしてください。</p>
+				<form action="main.html" method="post">
+					<dl>
+						<dt>ユーザID</dt>
+						<dd>
+							<input type="text" name="uid" />
+						</dd>
+					</dl>
+					<dl>
+						<dt>パスワード</dt>
+						<dd>
+							<input type="text" name="password" />
+						</dd>
+					</dl>
+					<button name="action" value="login">ログイン</button>
+				</form>
+			</article>
+	</main>
+
+	<!-- フッタ領域 -->
+	<footer>
+		<p id="copyright">&copy;2017-2022 XXX All right reserved.</p>
+	</footer>
+
+</body>
+
+</html>

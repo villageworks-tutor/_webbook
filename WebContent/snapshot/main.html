@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<title>メイン - 図書管理システム</title>
+	<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+
+<body>
+	<header>
+		<h1>某図書館　図書管理システム</h1>
+		<p><a href="index.html">トップメニューへ戻る</a></p>
+	</header>
+
+	<main>
+		<article id="main">
+			<section id="user">
+				<h2>利用者管理</h2>
+				<ul>
+					<li><a href="./user/registView.html">登録</a></li>
+					<li><a href="./user/searchEntryView.html">更新</a></li>
+				</ul>
+			</section>
+			<section id="book">
+				<h2>資料管理</h2>
+				<ul>
+					<li><a href="./snapshot/book/registView.html">登録</a></li>
+					<li><a href="./snapshot/book/searchView.html">更新</a></li>
+					<li><a href="./snapshot/archive/bookCatalogueView.html">資料目録</a></li>
+					<li><a href="./snapshot/archive/bookMasterView.html">資料台帳</a></li>
+				</ul>
+			</section>
+			<section id="counter">
+				<h2>図書館業務</h2>
+				<ul>
+					<li><a href="./snapshot/operation/searchView.html">貸出</a></li>
+					<li><a href="#">返却</a></li>
+				</ul>
+			</section>
+		</article>
+	</main>
+
+	<footer>
+		<p id="copyright">&copy;2017-2019 XXX All right reserved.</p>
+	</footer>
+</body>
+
+</html>

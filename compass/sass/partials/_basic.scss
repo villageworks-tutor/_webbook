@@ -1,0 +1,103 @@
+@charset "utf-8";
+
+$basic-font-scale: 62.5%;
+$basic-font-size: 1.4rem;
+$h1-scale: 1.65;
+$h2-scale: 1.30;
+$h3-scale: 1.15;
+$h1-font-size: $basic-font-size * $h1-scale;
+$h2-font-size: $basic-font-size * $h2-scale;
+$h3-font-size: $basic-font-size * $h3-scale;
+
+$small-font-size: $basic-font-size * 0.80;
+$error-message-font-size: $basic-font-size * 0.90;
+
+$basic-color: 		dimgray;
+$basic-font-color: $basic-color;
+$error-font-color:tomato;
+$basic-border-color: $basic-color;
+
+$theme_color:     #006e54;
+$theme_sub_color: #eaf4fc;
+
+@function setSizeByScale($scale) {
+	@return $basic-font-size * $scale;
+}
+
+html {
+	font-size: $basic-font-scale;
+	body {
+		font-size: $basic-font-size;
+		color: $basic-font-color;
+		margin: setSizeByScale(2);
+		padding: setSizeByScale(0.075) setSizeByScale(1.5);
+		header {
+			p {
+				text-align: right;
+				font-size: $small-font-size;
+			}
+		}
+		main {
+			padding: setSizeByScale(0.50);
+			article {
+				margin: setSizeByScale(2.25) setSizeByScale(0.25);
+				section {
+					margin: setSizeByScale(2) setSizeByScale(0.75);
+				}
+			}
+		}
+	}
+}
+
+h1 {font-size: $h1-font-size;}
+h2 {font-size: $h2-font-size;}
+h3 {font-size: $h3-font-size;}
+
+h2 {
+	padding: setSizeByScale(0.35) setSizeByScale(0.75);
+	padding-bottom: 0;
+	border-left: setSizeByScale(1.50) solid $theme_color;
+	border-bottom: setSizeByScale(0.2) solid $theme_color;
+}
+
+h3, p {
+	margin: setSizeByScale(0.75) 0;
+	padding: 0;
+}
+
+p {
+	margin: 0.325rem;
+	line-height: 1.4;
+}
+
+ol, ul {list-style-type: none;}
+
+table {
+	border-collapse: collapse;
+	margin-top: setSizeByScale(2);
+	th, td {
+		border: 1px solid $basic-border-color;
+		padding: setSizeByScale(0.5) setSizeByScale(0.75);
+		vertical-align: middle;
+	}
+	td {
+		&[colspan] {
+			border-width: 0;
+			padding: setSizeByScale(1);
+			text-align: center;
+		}
+	}
+}
+
+ul.error {
+	color: $error-font-color;
+	margin-left: 0;
+	padding-left: 0;
+	font-size: $error-message-font-size;
+}
+
+form {
+	input[type="submit"], button {
+		margin: setSizeByScale(0.75) setSizeByScale(0.50);
+	}
+}

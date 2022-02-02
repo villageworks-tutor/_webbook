@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>index - 図書管理システム</title>
+	<link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+
+<body>
+	<header>
+		<h1>某図書館　図書管理システム</h1>
+		<p><a href="../../index.html">トップメニューへ戻る</a></p>
+	</header>
+
+	<main>
+		<article id="user">
+			<h2>利用者情報登録</h2>
+			<section id="signupConfirm">
+				<h3>確認</h3>
+				<p>以下の情報で登録します。</p>
+				<p>登録する場合は［登録する］ボタンをクリックしてください。また、修正する場合は［戻る］ボタンをクリックしてください。</p>
+				<form>
+					<table>
+						<tr>
+							<th>ID</th>
+							<td>1</td>
+						</tr>
+						<tr>
+							<th>利用者名</th>
+							<td>伊藤若冲</td>
+						</tr>
+						<tr>
+							<th>住所</th>
+							<td>〒604-0000　京都府京都市錦小路</td>
+						</tr>
+						<tr>
+							<th>電話番号</th>
+							<td>075-222-3333</td>
+						</tr>
+						<tr>
+							<th>生年月日</th>
+							<td>1716年 3月 1日</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<button formaction="signupCompleteView.html" formmethod="post">登録する</button>
+								<button formaction="signupEntryView.html" formmethod="post">戻る</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</section>
+		</article>
+	</main>
+
+	<footer>
+		<p id="copyright">&copy;2017-2019 XXX All right reserved.</p>
+	</footer>
+</body>
+
+</html>
