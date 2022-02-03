@@ -32,7 +32,7 @@ html {
 		margin: setSizeByScale(2);
 		padding: setSizeByScale(0.075) setSizeByScale(1.5);
 		header {
-			p {
+			div {
 				text-align: right;
 				font-size: $small-font-size;
 			}
@@ -100,4 +100,12 @@ form {
 	input[type="submit"], button {
 		margin: setSizeByScale(0.75) setSizeByScale(0.50);
 	}
+}
+
+.message {
+	font-weight: bold;
+}
+
+.error {
+	color: $error-font-color;
 }
