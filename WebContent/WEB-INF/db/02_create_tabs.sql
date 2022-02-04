@@ -1,6 +1,6 @@
 -- テーブルの初期化（全削除）
 DROP TABLE IF EXISTS category       CASCADE;
-DROP TABLE IF EXISTS priviledge     CASCADE;
+DROP TABLE IF EXISTS privilege     CASCADE;
 DROP TABLE IF EXISTS publisher      CASCADE;
 DROP TABLE IF EXISTS member         CASCADE;
 DROP TABLE IF EXISTS book_catalogue CASCADE;
@@ -22,11 +22,11 @@ ALTER TABLE category ADD CONSTRAINT pk_category PRIMARY KEY (code);
 /**********************************/
 /* テーブル名: 権限マスタ */
 /**********************************/
-CREATE TABLE priviledge (
+CREATE TABLE privilege (
   code SMALLINT NOT NULL UNIQUE,
   name VARCHAR(20)
 );
-ALTER TABLE priviledge ADD CONSTRAINT pk_priviledge PRIMARY KEY (code);
+ALTER TABLE privilege ADD CONSTRAINT pk_privilege PRIMARY KEY (code);
 
 /**********************************/
 /* テーブル名: 出版社マスタ */
@@ -51,13 +51,13 @@ CREATE TABLE member (
 	phone			 	VARCHAR(14),
 	email				VARCHAR(100),
 	birthday		DATE,
-	priviledge	SMALLINT,
+	privilege	SMALLINT,
 	signup_at	 	TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at	TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	erasured_at TIMESTAMP
 );
 ALTER TABLE member ADD CONSTRAINT pk_member PRIMARY KEY (id);
-ALTER TABLE member ADD CONSTRAINT fk_member FOREIGN KEY (priviledge) REFERENCES priviledge (code);
+ALTER TABLE member ADD CONSTRAINT fk_member FOREIGN KEY (privilege) REFERENCES privilege (code);
 
 /**********************************/
 /* テーブル名: 資料目録 */

@@ -8,7 +8,7 @@ html body {
   margin: 2.8rem;
   padding: 0.105rem 2.1rem;
 }
-html body header p {
+html body header div {
   text-align: right;
   font-size: 1.12rem;
 }
@@ -81,6 +81,14 @@ form input[type="submit"], form button {
   margin: 1.05rem 0.7rem;
 }
 
+.message {
+  font-weight: bold;
+}
+
+.error {
+  color: tomato;
+}
+
 #auth form {
   margin-left: 3.5rem;
 }
@@ -92,7 +100,7 @@ form input[type="submit"], form button {
   float: left;
 }
 #auth dl dt {
-  width: 10.5rem;
+  width: 11.2rem;
 }
 #auth dl dd {
   margin-left: 0.35rem;
@@ -102,6 +110,5 @@ form input[type="submit"], form button {
   content: "：";
 }
 #auth #updateEntry dt {
-  width: 11.2rem;
   text-align: right;
 }
