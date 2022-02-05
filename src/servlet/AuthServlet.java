@@ -26,7 +26,7 @@ public class AuthServlet extends BaseServlet {
 	/** クラス定数群 */
 	private static final String PARAM_KEY_ACTION = "action";
 	private static final String PARAM_KEY_CARD = "card";
-	private static final String PARAM_KEY_PASSWORD = "passwor";
+	private static final String PARAM_KEY_PASSWORD = "password";
 	private static final String SESSION_KEY_AUTH = "auth";
 	private static final String REQUEST_KEY_MESSAGE = "message";
 	private static final String ACTION_LOGIN = "login";
@@ -43,7 +43,7 @@ public class AuthServlet extends BaseServlet {
 		String nextPage = DIR_JSP;
 		String message = "";
 		if (DataUtils.isNull(nextPage) || DataUtils.isEmpty(action)) {
-			nextPage += URL_LOGIN;
+			nextPage = URL_LOGIN;
 		} else if (action.equals(ACTION_LOGIN)) {
 			String card = request.getParameter(PARAM_KEY_CARD);
 			String password = request.getParameter(PARAM_KEY_PASSWORD);

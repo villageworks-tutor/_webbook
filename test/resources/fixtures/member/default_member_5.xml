@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<!-- memberテーブルの初期登録レコード群 -->
+	<member card="12056692" name="梅田 俊章" zipcode="232-0016" address="神奈川県横浜市南区宮元町2-16-18" phone="080-4293-2703" email="mizuho2311@mhwuymgwsr.rp.rql" birthday="1985-07-05" privilege="1" />
+	<member card="12050662" name="清田 健蔵" zipcode="277-0851" address="千葉県柏市向原町1-17-13" phone="080-3440-9925" email="yuzuki086@udtmsizh.nbl.jrml" birthday="2001-02-01" privilege="2" />
+	<member card="12058021" name="浜口 秋雄" zipcode="259-0201" address="神奈川県足柄下郡真鶴町真鶴3-20-8" phone="080-4751-9498" email="fujio_tsuchiya@yfqkvmrmfr.geq.bbl" birthday="1987-11-15" privilege="2" />
+	<member card="12057327" name="古橋 正美" zipcode="121-0807" address="東京都足立区伊興本町1-16伊興本町アパート406" phone="090-4613-0336" email="yoshiko_shimada@ztvzw.frig.fhbl" birthday="1970-10-08" privilege="1" />
+	<member card="12052425" name="吉澤 正徳" zipcode="241-0005" address="神奈川県横浜市旭区白根4-6白根フォレスト216" phone="080-1284-7148" email="chuuzou30475@kwjs.qxl" birthday="1980-01-27" privilege="2" />
+	<!-- authテーブルの初期登録レコード群：memberテーブルの投入レコードに対応した認証レコード群 -->
+	<auth card='12056692' password='31c191d73919df6a7928748abb781800efed72c335fd574b548bd5c83320960d' /><!-- ハッシュ変換元パスワード：usr1 -->
+	<auth card='12050662' password='dc6d1427d39c787ca546abeccddc0ca01c3411a82b4a4493acdb251ac4dd1931' /><!-- ハッシュ変換元パスワード：usr2 -->
+	<auth card='12058021' password='583c1da8f27d6202a6ba4afed44ee6ceca416ed2a35ffb23de424d60632d2706' /><!-- ハッシュ変換元パスワード：usr3 -->
+	<auth card='12057327' password='37fd8167e5d090ed401696d0fc5abbbf16b66888b1a0a52321e48a2100507bdc' /><!-- ハッシュ変換元パスワード：usr4 -->
+	<auth card='12052425' password='d09ce0948322de958f9c3e943e1e33892430ea48c5f36d1c972ef74c7219d2c7' /><!-- ハッシュ変換元パスワード：usr5 -->
+</dataset>
