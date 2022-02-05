@@ -112,3 +112,10 @@ form input[type="submit"], form button {
 #auth #updateEntry dt {
   text-align: right;
 }
+
+#user #searchEntry form input[type="text"] {
+  width: 21rem;
+}
+#user #searchResult table tr td:first-child {
+  text-align: center;
+}

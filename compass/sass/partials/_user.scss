@@ -1,4 +1,20 @@
 @charset "utf-8";
 
-#user #searchEntry {
+#user {
+	#searchEntry {
+		form {
+			input[type="text"] {
+				width: setSizeByScale(15.0);
+			}
+		}
+	}
+	#searchResult {
+		table {
+			tr {
+				td:first-child {
+					text-align: center;
+				}
+			}
+		}
+	}
 }
