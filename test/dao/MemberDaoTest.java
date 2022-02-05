@@ -168,6 +168,53 @@ class MemberDaoTest {
 			}
 
 			@Test
+			@DisplayName("【Test-03：電子メールアドレス未入力による検索】電子メールアドレスを指定しない場合はすべての利用者を取得する")
+			void tets_03() throws Exception {
+				// setup
+				String target = "";
+				List<MemberBean> expected = new ArrayList<MemberBean>();
+				MemberBean member = null;
+				member = new MemberBean();
+				member.setCard("12050662");
+				member.setName("清田 健蔵");
+				member.setZipcode("277-0851");
+				member.setAddress("千葉県柏市向原町1-17-13");
+				member.setPhone("080-3440-9925");
+				member.setEmail("yuzuki086@udtmsizh.nbl.jrml");
+				member.setBirthday(Date.valueOf("2001-02-01"));
+				member.setPrivilege(2);
+				expected.add(member);
+
+				member = new MemberBean();
+				member.setCard("12056692");
+				member.setName("梅田 俊章");
+				member.setZipcode("232-0016");
+				member.setAddress("神奈川県横浜市南区宮元町2-16-18");
+				member.setPhone("080-4293-2703");
+				member.setEmail("mizuho2311@mhwuymgwsr.rp.rql");
+				member.setBirthday(Date.valueOf("1985-07-05"));
+				member.setPrivilege(1);
+				expected.add(member);
+
+				member = new MemberBean();
+				member.setCard("12058021");
+				member.setName("浜口 秋雄");
+				member.setZipcode("259-0201");
+				member.setAddress("神奈川県足柄下郡真鶴町真鶴3-20-8");
+				member.setPhone("080-4751-9498");
+				member.setEmail("fujio_tsuchiya@yfqkvmrmfr.geq.bbl");
+				member.setBirthday(Date.valueOf("1987-11-15"));
+				member.setPrivilege(2);
+				expected.add(member);
+				// execute
+				List<MemberBean> actual = sut.getByEmail(target);
+				// verify
+				for (int i = 0; i < actual.size(); i++) {
+					assertThat(actual.get(i), is(new EqualToMember(expected.get(i))));
+				}
+			}
+
+			@Test
 			@DisplayName("【Test-02：未登録電子メールアドレスによる検索】未登録電子メールアドレス「sample@abc.com」の利用者は検索されない")
 			void test_02() throws Exception {
 				// setup

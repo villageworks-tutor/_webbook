@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.MemberBean;
+import jp.villageworks.core.DataUtils;
 
 /**
  * 利用者に関するレコード操作を担当するDAO
@@ -35,7 +36,7 @@ public class MemberDAO extends BaseDAO {
 	 * コンストラクタ
 	 * @param conn データベース接続オブジェクト
 	 */
-	protected MemberDAO(Connection conn) {
+	public MemberDAO(Connection conn) {
 		super(conn);
 	}
 
@@ -84,6 +85,10 @@ public class MemberDAO extends BaseDAO {
 	 * TODO：利用者リストを戻り値にしているが、テーブル定義において電子メールドレスに一意性制約を設定することでリストではなくインスタンスに変更することができる。
 	 */
 	public List<MemberBean> getByEmail(String email) throws DAOException {
+		// 引数がnullまたは空文字列の場合は全件検索
+		if (DataUtils.isNull(email) || DataUtils.isEmpty(email)) {
+			return this.getAll();
+		}
 		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_GET_BY_EMAIL)) {
 			// プレースホルダへのパラメータバインド
 			pstmt.setString(1, email);
