@@ -31,6 +31,7 @@ public class UserServlet extends BaseServlet {
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");
 		String nextPage = DIR_JSP;
+		String message = "";
 		if (DataUtils.isNull(action) || DataUtils.isEmpty(action) || action.equals("search")) {
 			nextPage = DIR_JSP + "/user/searchEntry.jsp";
 		} else if (action.equals("searchExecute")) {
@@ -43,7 +44,6 @@ public class UserServlet extends BaseServlet {
 				List<MemberBean> list = dao.getByEmail(key);
 				// リクエストスコープに結果を設定
 				request.setAttribute("members", list);
-				String message = "";
 				if (list.size() == 0) {
 					// 検索結果の件数が0件の場合はメッセージを設定
 					message = "該当する利用者は見つかりませんでした。";
@@ -59,8 +59,28 @@ public class UserServlet extends BaseServlet {
 		} else if (action.equals("updateEntry")) {
 			// リクエストパラメータを取得
 			String id = request.getParameter("id");
-			// 遷移先URLを設定
-			nextPage = DIR_JSP + "/user/updateEntry.jsp";
+			try {
+				// 利用者IDに合致した利用者を取得
+				MemberDAO dao = new MemberDAO(DbUtils.getConnection());
+				MemberBean bean = dao.getByPrimaryKey(id);
+				if (DataUtils.isNull(bean)) {
+					// リクエストスコープにエラーメッセージを設定
+					message = "該当する利用者は見つかりませんでした。";
+					// 遷移先URLを設定
+					nextPage = DIR_JSP + "/user/serchEntry.jsp";
+				} else {
+					// リクエストスコープに検索結果を設定
+					request.setAttribute("member", bean);
+					// 遷移先URLを設定
+					nextPage = DIR_JSP + "/user/updateEntry.jsp";
+				}
+			} catch (DAOException e) {
+				e.printStackTrace();
+				// リクエストスコープにエラーメッセージを設定
+				request.setAttribute("error", e.getMessage());
+				// 遷移先URLを設定
+				nextPage = DIR_JSP + "/error/systemerror.jsp";
+			}
 		}
 		this.gotoPage(request, response, nextPage);
 	}

@@ -24,7 +24,7 @@ public class MemberDAO extends BaseDAO {
 								+ "FROM member "
 								+ "ORDER BY card";
 	private static final String
-	SQL_GET_BY_PRIMARY_KEY = "SELECT id, card, name, zipcode, address, phone, email, birthday, privilege "
+	SQL_GET_BY_PRIMARY_KEY = "SELECT id, card, name, zipcode, address, phone, email, birthday, privilege, signup_at, updated_at, erasured_at "
 												 + "FROM member "
 												 + "WHERE id = ?";
 	private static final String
@@ -54,6 +54,22 @@ public class MemberDAO extends BaseDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new DAOException("レコードの取得に失敗しました。");
+		}
+	}
+
+	/**
+	 * 指定された利用者ID（主キー）に該当する利用者を取得する。
+	 * @param key 文字列型の利用者ID
+	 * @return MemberBean 該当する場合はMemberBeanクラスのインスタンス、それ以外はnull
+	 * @throws DAOException
+	 */
+	public MemberBean getByPrimaryKey(String key) throws DAOException {
+		try {
+			int id = Integer.parseInt(key);
+			return this.getByPrimaryKey(id);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			throw new DAOException("システムエラーが発生しました。システム管理者に問い合わせてください。");
 		}
 	}
 
@@ -123,6 +139,9 @@ public class MemberDAO extends BaseDAO {
 			bean.setEmail(rs.getString("email"));
 			bean.setBirthday(rs.getDate("birthday"));
 			bean.setPrivilege(rs.getInt("privilege"));
+			bean.setSignupAt(rs.getTimestamp("signup_at"));
+			bean.setUpdatedAt(rs.getTimestamp("updated_at"));
+			bean.setErasuredAt(rs.getTimestamp("erasured_at"));
 		}
 		// 戻り値を返却
 		return bean;

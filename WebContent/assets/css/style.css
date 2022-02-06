@@ -89,6 +89,14 @@ form input[type="submit"], form button {
   color: tomato;
 }
 
+.required:after {
+  content: "✞";
+}
+
+.note {
+  font-size: 1.26rem;
+}
+
 #auth form {
   margin-left: 3.5rem;
 }
