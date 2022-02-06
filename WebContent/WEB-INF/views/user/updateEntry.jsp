@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-	<meta charset="UTF-8">
-	<title>利用者管理：登録情報更新 - 図書管理システム</title>
-	<link rel="stylesheet" href="../../assets/css/style.css" />
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-	<!-- ヘッダ領域 -->
-	<header>
-		<h1>某図書館　図書管理システム</h1>		
-		<div><a href="AuthServlet?action=logout">ログアウトする</a></div>
-	</header>
-
-	<!-- メインコンテンツ領域 -->
-	<main>
+<jsp:include page="../parts/layout.jsp">
+<jsp:param name="title" value="利用者管理：登録情報更新" />
+<jsp:param name="content">
+	<jsp:attribute name="value">
 		<article id="user">
 		<h2>利用者登録情報更新</h2>
 		<section id="updateEntry">
@@ -23,7 +13,10 @@
 			<table>
 				<tr>
 					<th>利用者番号</th>
-					<td>12056692</td>
+					<td>
+						12056692
+						<input type="hidden" name="id" value="90" />
+					</td>
 				</tr>
 				<tr>
 					<th>利用者名</th>
@@ -79,13 +72,7 @@
 			</table>
 			</form>
 		</section>
-	</article>
-	</main>
-
-	<!-- フッタ領域 -->
-	<footer>
-		<p id="copyright">&copy;2017-2022 XXX All right reserved.</p>
-	</footer>
-
-</body>
-</html>
+		</article>
+	</jsp:attribute>
+</jsp:param>
+</jsp:include>

@@ -56,6 +56,11 @@ public class UserServlet extends BaseServlet {
 				// リクエストスコープにエラーメッセージを設定
 				request.setAttribute("error", e.getMessage());
 			}
+		} else if (action.equals("updateEntry")) {
+			// リクエストパラメータを取得
+			String id = request.getParameter("id");
+			// 遷移先URLを設定
+			nextPage = DIR_JSP + "/user/updateEntry.jsp";
 		}
 		this.gotoPage(request, response, nextPage);
 	}
