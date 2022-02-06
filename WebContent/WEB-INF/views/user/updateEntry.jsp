@@ -18,6 +18,7 @@
 					<td>
 						${requestScope.member.card}
 						<input type="hidden" name="id" value="${requestScope.member.id}" />
+						<input type="hidden" name="card" value="${requestScope.member.card}" />
 					</td>
 				</tr>
 				<tr>
@@ -70,12 +71,14 @@
 					<th>登録日</th>
 					<td>
 						<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${requestScope.member.signupAt}" />
+						<input type="hidden" name="signupAt" value="${requestScope.member.signupAt}" />
 					</td>
 				</tr>
 				<tr>
 					<th>最終更新日</th>
 					<td>
 						<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${requestScope.member.updatedAt}" />
+						<input type="hidden" name="updatedAt" value="${requestScope.member.updatedAt}" />
 					</td>
 				</tr>
 				<tr>

@@ -1,6 +1,9 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.MemberBean;
 import dao.DAOException;
@@ -57,29 +61,81 @@ public class UserServlet extends BaseServlet {
 				request.setAttribute("error", e.getMessage());
 			}
 		} else if (action.equals("updateEntry")) {
-			// リクエストパラメータを取得
-			String id = request.getParameter("id");
-			try {
-				// 利用者IDに合致した利用者を取得
-				MemberDAO dao = new MemberDAO(DbUtils.getConnection());
-				MemberBean bean = dao.getByPrimaryKey(id);
-				if (DataUtils.isNull(bean)) {
+			// セッションに登録された更新用MemberBeanを取得
+			HttpSession session = request.getSession(false);
+			MemberBean scopedBean = (MemberBean) session.getAttribute("member");
+			if (!DataUtils.isNull(scopedBean)) {
+				request.setAttribute("member", scopedBean);
+				nextPage = DIR_JSP + "/user/updateEntry.jsp";
+			} else {
+				// リクエストパラメータを取得
+				String id = request.getParameter("id");
+				try {
+					// 利用者IDに合致した利用者を取得
+					MemberDAO dao = new MemberDAO(DbUtils.getConnection());
+					MemberBean bean = dao.getByPrimaryKey(id);
+					if (DataUtils.isNull(bean)) {
+						// リクエストスコープにエラーメッセージを設定
+						message = "該当する利用者は見つかりませんでした。";
+						// 遷移先URLを設定
+						nextPage = DIR_JSP + "/user/serchEntry.jsp";
+					} else {
+						// リクエストスコープに検索結果を設定
+						request.setAttribute("member", bean);
+						// 遷移先URLを設定
+						nextPage = DIR_JSP + "/user/updateEntry.jsp";
+					}
+				} catch (DAOException e) {
+					e.printStackTrace();
 					// リクエストスコープにエラーメッセージを設定
-					message = "該当する利用者は見つかりませんでした。";
+					request.setAttribute("error", e.getMessage());
 					// 遷移先URLを設定
-					nextPage = DIR_JSP + "/user/serchEntry.jsp";
-				} else {
-					// リクエストスコープに検索結果を設定
-					request.setAttribute("member", bean);
-					// 遷移先URLを設定
-					nextPage = DIR_JSP + "/user/updateEntry.jsp";
+					nextPage = DIR_JSP + "/error/systemerror.jsp";
 				}
-			} catch (DAOException e) {
-				e.printStackTrace();
+			}
+		} else if (action.equals("updateConfirm")) {
+			// リクエストパラメータを取得
+			List<String> errors = new ArrayList<String>();
+			String primaryKey = request.getParameter("id");
+			String card = request.getParameter("card");
+			String name = request.getParameter("name");
+			if (DataUtils.isEmpty(name)) {
+				errors.add("利用者名を入力してください。");
+			}
+			String zipcode = request.getParameter("zipcode");
+			String address = request.getParameter("address");
+			String phone = request.getParameter("phone");
+			if (DataUtils.isEmpty(phone)) {
+				errors.add("電話番号を入力してください。");
+			}
+			String email = request.getParameter("email");
+			if (DataUtils.isEmpty(email)) {
+				errors.add("電子メールアドレスを入力してください。");
+			}
+			String birthday = request.getParameter("birthday");
+			String privilegeCode = request.getParameter("privilege");
+			String signupAt = request.getParameter("signupAt");
+			String updatedAt = request.getParameter("updatedAt");
+
+			// 入力エラーがある場合
+			if (errors.size() > 0) {
 				// リクエストスコープにエラーメッセージを設定
-				request.setAttribute("error", e.getMessage());
+				request.setAttribute("errors", errors);
 				// 遷移先URLを設定
-				nextPage = DIR_JSP + "/error/systemerror.jsp";
+				nextPage = DIR_JSP + "/user/updateEntry.jsp";
+			} else {
+				// 更新用memberBeanをインスタンス化
+				MemberBean user = new MemberBean(0, card, name, zipcode, address, phone, email, null, 0);
+				user.setId(Integer.valueOf(primaryKey));
+				user.setBirthday(Date.valueOf(birthday));
+				user.setPrivilege(Integer.valueOf(privilegeCode));
+				user.setSignupAt(Timestamp.valueOf(signupAt));
+				user.setUpdatedAt(Timestamp.valueOf(updatedAt));
+
+				// 更新用インスタンスをセッションに登録
+				HttpSession session = request.getSession();
+				session.setAttribute("member", user);
+				nextPage = DIR_JSP + "/user/updateConfirm.jsp";
 			}
 		}
 		this.gotoPage(request, response, nextPage);
