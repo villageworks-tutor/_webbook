@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../parts/layout.jsp">
-<jsp:param name="title" value="利用者サービス：検索" />
+<jsp:param name="title" value="利用者管理：検索" />
 <jsp:param name="content">
 	<jsp:attribute name="value">
 	<article id="user">
@@ -46,8 +46,8 @@
 							<td>
 								<form action="UserServlet" method="post">
 									<input type="hidden" name="id" value="${pageScope.member.id}" />
-									<button type="submit" name="action" value="update">更新</button>
-									<button type="submit" name="action" value="delete">削除</button>
+									<button type="submit" name="action" value="updateEntry">更新</button>
+									<button type="submit" name="action" value="deleteConfirm">削除</button>
 								</form>
 							</td>
 						</tr>

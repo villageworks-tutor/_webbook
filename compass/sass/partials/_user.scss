@@ -17,4 +17,28 @@
 			}
 		}
 	}
+	#updateEntry {
+		line-height: 2.4;
+		form {
+			input {
+				&[name="zipcode"] {
+					margin-left: setSizeByScale(0.25);
+					width: setSizeByScale(4.25);
+				}
+				&[name="phone"] {
+					width: setSizeByScale(7.0);
+				}
+				&[name="email"] {
+					width: setSizeByScale(15);
+				}
+			}
+			textarea {
+				width: setSizeByScale(20);
+				height: setSizeByScale(1.25 * 3);
+			}
+			label {
+				margin: 0 setSizeByScale(0.75) 0 setSizeByScale(0.25);
+			}
+		}
+	}
 }

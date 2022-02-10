@@ -109,3 +109,13 @@ form {
 .error {
 	color: $error-font-color;
 }
+
+.required {
+	&:after {
+		content: "✞";
+	}
+}
+
+.note {
+	font-size: setSizeByScale(0.90);
+}
