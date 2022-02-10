@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 	<!-- memberテーブルの初期登録レコード群 -->
-	<member id="1" card="12050662" name="清田 健蔵" zipcode="277-0851" address="千葉県柏市向原町1-17-13" phone="080-3440-9925" email="yuzuki086@udtmsizh.nbl.jrml" birthday="2001-02-01" privilege="2" />
+	<member id="1" card="12050662" name="清田 健蔵" zipcode="277-0851" address="千葉県柏市向原町1-17-13" phone="080-3440-9925" email="yuzuki086@udtmsizh.nbl.jrml" birthday="2001-02-01" privilege="2" signup_at="2022-01-01" updated_at="2022-01-01" />
 	<member id="2" card="12056692" name="梅田 俊章" zipcode="232-0016" address="神奈川県横浜市南区宮元町2-16-18" phone="080-4293-2703" email="mizuho2311@mhwuymgwsr.rp.rql" birthday="1985-07-05" privilege="1" />
 	<member id="3" card="12058021" name="浜口 秋雄" zipcode="259-0201" address="神奈川県足柄下郡真鶴町真鶴3-20-8" phone="080-4751-9498" email="fujio_tsuchiya@yfqkvmrmfr.geq.bbl" birthday="1987-11-15" privilege="2" />
 <!-- 	<member card="12057327" name="古橋 正美" zipcode="121-0807" address="東京都足立区伊興本町1-16伊興本町アパート406" phone="090-4613-0336" email="yoshiko_shimada@ztvzw.frig.fhbl" birthday="1970-10-08" privilege="1" /> -->
