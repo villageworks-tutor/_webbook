@@ -137,6 +137,32 @@ public class UserServlet extends BaseServlet {
 				session.setAttribute("member", user);
 				nextPage = DIR_JSP + "/user/updateConfirm.jsp";
 			}
+		} else if (action.equals("updateExecute")) {
+			// セッションから更新用MemberBeanインスタンスを取得
+			HttpSession session = request.getSession(false);
+			MemberBean member = (MemberBean) session.getAttribute("member");
+			if (DataUtils.isNull(member)) {
+				request.setAttribute("message", "最初から操作し直してください。");
+				nextPage = DIR_JSP + "/user/login.jsp";
+			} else {
+				try {
+					// MemberDAOをインスタンス化
+					MemberDAO dao = new MemberDAO(DbUtils.getConnection());
+					dao.update(member);
+					// セッションからmemberキーを破棄
+					session.removeAttribute("member");
+					// 更新用MemberBeanをスコープに登録
+					request.setAttribute("member", member);
+					// 遷移先を設定
+					nextPage = DIR_JSP + "/user/updateComplete.jsp";
+				} catch (DAOException e) {
+					e.printStackTrace();
+					// リクエストスコープにエラーメッセージを設定
+					request.setAttribute("error", e.getMessage());
+					// 遷移先URLを設定
+					nextPage = DIR_JSP + "/error/systemerror.jsp";
+				}
+			}
 		}
 		this.gotoPage(request, response, nextPage);
 	}

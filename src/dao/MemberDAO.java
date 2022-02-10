@@ -31,6 +31,20 @@ public class MemberDAO extends BaseDAO {
 		SQL_GET_BY_EMAIL = "SELECT id, card, name, zipcode, address, phone, email, birthday, privilege "
 										 + "FROM member "
 										 + "WHERE email = ?";
+	private static final String
+		SQL_UPDATE = "UPDATE member "
+							 + "SET name = ?, zipcode = ?, address = ?, phone = ?, email = ?, birthday = ?, privilege = ? "
+							 + "WHERE id = ?";
+	private static final String
+		SQL_INSERT = "INSERT INTO memer (id, card, name, zicode, address, phone, email, bithday, privilege) "
+							 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String
+		SQL_DELETE = "DELETE FROM member "
+							 + "WHERE id = ?";
+	private static final String
+		SQL_REMOVE = "UPDATE member "
+							 + "SET erasured_at = ?"
+							 + "WHERE id = ?";
 
 	/**
 	 * コンストラクタ
@@ -172,6 +186,102 @@ public class MemberDAO extends BaseDAO {
 		}
 		// 戻り値を返却
 		return list;
+	}
+
+	/**
+	 * 利用者の項目を更新する。
+	 * @param member 更新するMembereanのインスタンス
+	 * @return 更新が成功した場合は1が返されるが、失敗した場合は例外が送出される。
+	 * @throws DAOException
+	 */
+	public int update(MemberBean member) throws DAOException {
+		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_UPDATE);) {
+			// プレースホルダへのパラメータバインド
+			pstmt.setString(1, member.getName());
+			pstmt.setString(2, member.getZipcode());
+			pstmt.setString(3, member.getAddress());
+			pstmt.setString(4, member.getPhone());
+			pstmt.setString(5, member.getEmail());
+			pstmt.setDate(6, member.getBirthday());
+			pstmt.setInt(7, member.getPrivilege());
+			pstmt.setInt(8, member.getId());
+			// SQLを実行と成功した号数を取得
+			int row = pstmt.executeUpdate();
+			// 行数を返却
+			return row;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの更新に失敗しました。");
+		}
+	}
+
+	/**
+	 * 利用者を登録する。
+	 * @param member 登録するMembereanのインスタンス
+	 * @return 登録が成功した場合は1が返されるが、失敗した場合は例外が送出される。
+	 * @throws DAOException
+	 */
+	public int insert(MemberBean member) throws DAOException {
+		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_INSERT)) {
+			// プレースホルダへのパラメータバインド
+			pstmt.setInt(1, member.getId());
+			pstmt.setString(2, member.getCard());
+			pstmt.setString(3, member.getName());
+			pstmt.setString(4, member.getZipcode());
+			pstmt.setString(5, member.getAddress());
+			pstmt.setString(6, member.getPhone());
+			pstmt.setString(7, member.getEmail());
+			pstmt.setDate(8, member.getBirthday());
+			pstmt.setInt(9, member.getPrivilege());
+			// SQLを実行と成功した号数を取得
+			int row = pstmt.executeUpdate();
+			// 行数を返却
+			return row;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの挿入に失敗しました。");
+		}
+	}
+
+	/**
+	 * 利用者を物理削除する。
+	 * @param member 削除するMembereanのインスタンス
+	 * @return 削除が成功した場合は1が返されるが、失敗した場合は例外が送出される。
+	 * @throws DAOException
+	 */
+	public int delete(MemberBean member) throws DAOException {
+		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_DELETE)) {
+			// プレースホルダへのパラメータバインド
+			pstmt.setInt(1, member.getId());
+			// SQLを実行と成功した号数を取得
+			int row = pstmt.executeUpdate();
+			// 行数を返却
+			return row;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの物理削除に失敗しました。");
+		}
+	}
+
+	/**
+	 * 利用者を論理削除する。
+	 * @param member 削除するMembereanのインスタンス
+	 * @return 削除が成功した場合は1が返されるが、失敗した場合は例外が送出される。
+	 * @throws DAOException
+	 */
+	public int remove(MemberBean member) throws DAOException {
+		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_REMOVE)) {
+			// プレースホルダへのパラメータバインド
+			pstmt.setTimestamp(1, member.getErasuredAt());
+			pstmt.setInt(2, member.getId());
+			// SQLを実行と成功した号数を取得
+			int row = pstmt.executeUpdate();
+			// 行数を返却
+			return row;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの論理削除に失敗しました。");
+		}
 	}
 
 }

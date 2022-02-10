@@ -9,42 +9,45 @@
 		<article id="user">
 		<h2>利用者登録情報更新</h2>
 		<section id="updateEntry">
-			<h3>更新情報確認</h3>
-			<p>以下の内容で更新します。<br />更新する場合は［更新する］ボタンをクリックしてください。<br />修正する場合は［更新画面に戻る］ボタンをクリックしてください。</p>
-			<form action="UserServlet" method="post">
+			<h3>更新完了</h3>
+			<p>以下の内容で更新しました。</p>
+			<p>
+				<a href="AuthServlet?action=main">メニュ画面に戻る</a>
+				<a href="UserServlet?action=search">利用者検索画面に戻る</a>
+			</p>
 			<table>
 				<tr>
 					<th>利用者番号</th>
-					<td>${sessionScope.member.card}</td>
+					<td>${requestScope.member.card}</td>
 				</tr>
 				<tr>
 					<th>利用者名</th>
-					<td>${sessionScope.member.name}</td>
+					<td>${requestScope.member.name}</td>
 				</tr>
 				<tr>
 					<th>住所</th>
 					<td>
-						〒 ${sessionScope.member.zipcode}<br />
-						${sessionScope.member.address}
+						〒 ${requestScope.member.zipcode}<br />
+						${requestScope.member.address}
 					</td>
 				</tr>
 				<tr>
 					<th>電話番号</th>
-					<td>${sessionScope.member.phone}</td>
+					<td>${requestScope.member.phone}</td>
 				</tr>
 				<tr>
 					<th>電子メール</th>
-					<td>${sessionScope.member.email}</td>
+					<td>${requestScope.member.email}</td>
 				</tr>
 				<tr>
 					<th>生年月日</th>
-					<td>${sessionScope.member.birthday}</td>
+					<td>${requestScope.member.birthday}</td>
 				</tr>
 				<tr>
 					<th>権限</th>
 					<td>
 						<c:choose>
-						<c:when test="${sessionScope.member.privilege == 1}">
+						<c:when test="${requestScope.member.privilege == 1}">
 							システム管理者
 						</c:when>
 						<c:otherwise>
@@ -56,28 +59,20 @@
 				<tr>
 					<th>登録日</th>
 					<td>
-						<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${sessionScope.member.signupAt}" />
+						<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${requestScope.member.signupAt}" />
 					</td>
 				</tr>
 				<tr>
 					<th>最終更新日</th>
 					<td>
-						<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${sessionScope.member.updatedAt}" />
+						<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${requestScope.member.updatedAt}" />
 					</td>
 				</tr>
 				<tr>
 					<th>抹消日</th>
 					<td>-</td>
 				</tr>
-				<tr>
-					<td colspan="2">
-						<button type="submit" name="action" value="updateExecute">更新する</button>
-						<button type="submit" name="action" value="updateEntry">更新画面に戻る</button>
-						<input type="hidden" name="id" value="${sesionScope.member.id}" />
-					</td>
-				</tr>
 			</table>
-			</form>
 		</section>
 		</article>
 	</jsp:attribute>

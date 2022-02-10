@@ -1,6 +1,6 @@
 -- テーブルの初期化（全削除）
 DROP TABLE IF EXISTS category       CASCADE;
-DROP TABLE IF EXISTS privilege     CASCADE;
+DROP TABLE IF EXISTS privilege      CASCADE;
 DROP TABLE IF EXISTS publisher      CASCADE;
 DROP TABLE IF EXISTS member         CASCADE;
 DROP TABLE IF EXISTS book_catalogue CASCADE;
@@ -43,7 +43,7 @@ ALTER TABLE publisher ADD CONSTRAINT pk_publisher PRIMARY KEY (code);
 /* テーブル名: 利用者マスタ */
 /**********************************/
 CREATE TABLE member (
-	id					SERIAL,
+	id					SERIAL,	-- シーケンス「member_id_seq」として参照する
 	card				CHAR(8) UNIQUE,
 	name				VARCHAR(10) NOT NULL,
 	zipcode		 	CHAR(8),
@@ -63,7 +63,7 @@ ALTER TABLE member ADD CONSTRAINT fk_member FOREIGN KEY (privilege) REFERENCES p
 /* テーブル名: 資料目録 */
 /**********************************/
 CREATE TABLE book_catalogue (
-	id 						SERIAL,
+	id 						SERIAL,	-- シーケンス「book_catalog_id_seq」として参照する
 	isbn 					CHAR(13) UNIQUE,
 	category 			SMALLINT,
 	title 				VARCHAR(200),
@@ -82,7 +82,7 @@ ALTER TABLE book_catalogue ADD CONSTRAINT fk_catalogue_publisher FOREIGN KEY (pu
 /* テーブル名: 資料台帳 */
 /**********************************/
 CREATE TABLE book_ledger (
-	id 						SERIAL,
+	id 						SERIAL,	-- シーケンス「book_ledger_id_seq」として参照する
 	catalogue_id 	INTEGER,
 	arraival_at 	DATE,
 	disposal_at 	DATE,
@@ -95,7 +95,7 @@ ALTER TABLE book_ledger ADD CONSTRAINT fk_ledger FOREIGN KEY (catalogue_id) REFE
 /* テーブル名: 貸出台帳 */
 /**********************************/
 CREATE TABLE activity_logs (
-	id 					SERIAL,
+	id 					SERIAL,	-- シーケンス「activity_logs_id_seq」として参照する
 	uid 				INTEGER NOT NULL,
 	book_id 		INTEGER,
 	borrow_at 	DATE NOT NULL DEFAULT CURRENT_DATE,
@@ -110,22 +110,21 @@ ALTER TABLE activity_logs ADD CONSTRAINT fk_activity_logs FOREIGN KEY (uid) REFE
 /* テーブル名: 予約台帳 */
 /**********************************/
 CREATE TABLE reserve (
-	id 					 SERIAL,
+	id 					 SERIAL,	-- シーケンス「resserve_id_seq」として参照する
 	uid 				 INTEGER,
 	book_id 		 INTEGER,
 	reserved_at  DATE,
 	status 			 SMALLINT,
-	descrioption VARCHAR(255) 
+	description VARCHAR(255)
 );
 
 /**********************************/
 /* テーブル名: 予約台帳 */
 /**********************************/
 CREATE TABLE auth (
-	id 				SERIAL,
-	card 			CHAR(8) UNIQUE NOT NULL,
---	signin_id VARCHAR(8),
-	password 	CHAR(64) NOT NULL,
+	id 				    SERIAL,	-- シーケンス「auth_id_seq」として参照する
+	card 			    CHAR(8) UNIQUE NOT NULL,
+	password 	    CHAR(64) NOT NULL,
 	signup_at	 		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	erasured_at 	TIMESTAMP

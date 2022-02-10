@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dbunit.Assertion;
+import org.dbunit.dataset.ITable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,6 +34,10 @@ class MemberDaoTest {
 	 * クラス定数
 	 */
 	private static final String PATH_DEFAULT_USERS = BaseDBUnitTest.DIR_FIXTURES + "/member/default_member.xml";
+	private static final String PATH_EXPECTED_UPDATE_01 = BaseDBUnitTest.DIR_FIXTURES + "/member/expected_update_member_01.xml";
+
+	private static final String TARGET_TABLE = "member";
+	private static final String[] EXCLUDED_COLUMNS = {"id", "signup_at", "updated_at", "erasured_at"};
 
 	/** テスト対象クラス：system under test */
 	MemberDAO sut;
@@ -44,6 +50,79 @@ class MemberDaoTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
+	}
+
+	@Nested
+	@DisplayName("● 更新系メソッドのテスト ●")
+	class updates extends BaseDBUnitTest {
+
+		@Nested
+		@DisplayName("MemberDAO#updateメソッドのテストクラス")
+		class update extends BaseDBUnitTest {
+
+			@BeforeEach
+			void setUp() throws Exception {
+				// DBUit関連オブジェクトの取得
+				this.createDBUnitConnections(PATH_DEFAULT_USERS);
+			}
+			@AfterEach
+			void tearDown() throws Exception {
+				// DBUit関連オブジェクトの破棄
+				this.shutdownDBUnitConnection();
+			}
+
+			@Test
+			@DisplayName("【Test-02】未登録の利用者ID「-1」の利用者の郵便番号を「111-1111」に変更できない")
+			void test_02() throws Exception {
+				// setup
+				String target = "111-1111";
+				// 更新対象となるmemberBeanのインスタンス化
+				MemberBean member = new MemberBean();
+				member.setId(-1);
+				member.setCard("12050662");
+				member.setName("清田 健蔵");
+				member.setZipcode("277-0851");
+				member.setAddress("千葉県柏市向原町1-17-13");
+				member.setPhone("080-3440-9925");
+				member.setEmail("xxxx@xxxx.com");
+				member.setBirthday(Date.valueOf("2001-02-01"));
+				member.setPrivilege(2);
+				int expected = 0;
+				// execute
+				int actual = sut.update(member);
+				// verify
+				assertThat(actual, is(expected));
+			}
+
+			@Test
+			@DisplayName("【Test-01】登録済の利用者ID「1」の利用者の電子メールアドレスを「kenzo_kiyota@xcity.org」に更新できる")
+			void test_01() throws Exception {
+				// setup
+				String target = "kenzo_kiyota@xcity.org";
+				// 更新対象となるmemberBeanのインスタンス化
+				MemberBean member = new MemberBean();
+				member.setId(1);
+				member.setCard("12050662");
+				member.setName("清田 健蔵");
+				member.setZipcode("277-0851");
+				member.setAddress("千葉県柏市向原町1-17-13");
+				member.setPhone("080-3440-9925");
+				member.setEmail(target);
+				member.setBirthday(Date.valueOf("2001-02-01"));
+				member.setPrivilege(2);
+
+				// execute
+				sut.update(member);
+
+				// テーブルの期待値を設定
+				ITable expected = super.createExpectedTable(PATH_EXPECTED_UPDATE_01, TARGET_TABLE);
+				// テーブルの実行値を取得
+				ITable actual = super.createEctualTable(TARGET_TABLE, EXCLUDED_COLUMNS);
+
+				// verify
+				Assertion.assertEquals(expected, actual);
+			}
+		}
 	}
 
 	@Nested
