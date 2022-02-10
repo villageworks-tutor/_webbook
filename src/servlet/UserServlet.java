@@ -163,8 +163,106 @@ public class UserServlet extends BaseServlet {
 					nextPage = DIR_JSP + "/error/systemerror.jsp";
 				}
 			}
+		} else if (action.equals("insertEntry")) {
+			HttpSession session = request.getSession(false);
+			MemberBean scopedBean = (MemberBean) session.getAttribute("member");
+			if (!DataUtils.isNull(scopedBean)) {
+				request.setAttribute("member", scopedBean);
+			}
+			nextPage = DIR_JSP + "/user/insertEntry.jsp";
+		} else if (action.equals("insertConfirm")) {
+			// エラーメッセージリストを初期化
+			List<String> errors = new ArrayList<String>();
+			// リクエストパラメータを取得する
+			String name = request.getParameter("name");
+			if (DataUtils.isEmpty(name)) {
+				errors.add("利用者名を入力してください。");
+			}
+			String zipcode = request.getParameter("zipcode");
+			String address = request.getParameter("address");
+			String phone = request.getParameter("phone");
+			if (DataUtils.isEmpty(phone)) {
+				errors.add("電話番号を入力してください。");
+			}
+			String email = request.getParameter("email");
+			if (DataUtils.isEmpty(email)) {
+				errors.add("電子メールドレスを入力してください。");
+			}
+			String birthday = request.getParameter("birthday");
+			String privilege = request.getParameter("privilege");
+
+			if (errors.size() > 0) {
+				request.setAttribute("errors", errors);
+				nextPage = DIR_JSP + "/user/insertEntry.jsp";
+			} else {
+				HttpSession session = request.getSession();
+				if (DataUtils.isNull(session)) {
+					request.setAttribute("message", "正しい操作をしてください。");
+					nextPage = DIR_JSP + "/systemerror.jsp";
+				} else {
+					MemberBean member = (MemberBean) session.getAttribute("member");
+					if (DataUtils.isNull(member)) {
+						member = new MemberBean();
+						session.setAttribute("member", member);
+					}
+					member.setName(name);
+					member.setZipcode(zipcode);
+					member.setAddress(address);
+					member.setPhone(phone);
+					member.setEmail(email);
+					member.setBirthday(Date.valueOf(birthday));
+					member.setPrivilege(Integer.parseInt(privilege));
+					nextPage = DIR_JSP + "/user/insertConfirm.jsp";
+				}
+			}
+		} else if (action.equals("insertExecute")) {
+			// セッションを取得
+			HttpSession session = request.getSession(false);
+			if (DataUtils.isNull(session)) {
+				request.setAttribute("message", "セッションが切れています。ログインからやり直してください。");
+				nextPage = DIR_JSP + "login.jsp";
+			} else {
+				MemberBean member = (MemberBean) session.getAttribute("member");
+				if (DataUtils.isNull(member)) {
+					session.removeAttribute("auth");
+					session.invalidate();
+					request.setAttribute("message", "正しく操作してください。");
+					nextPage = DIR_JSP + "systemerror.jsp";
+				} else {
+					try {
+						MemberDAO dao = new MemberDAO(DbUtils.getConnection());
+						// 新規利用者IDを取得
+						int id = dao.getSequence("member_id_seq");
+						// 新規利用者番号を生成
+						String card = this.createCardNumber(id);
+						// 新規登録インスタンスに新規利用者IDと新規利用者番号を設定
+						member.setId(id);
+						member.setCard(card);
+						// 新規登録を実行
+						dao.insert(member);
+						request.setAttribute("member", member);
+						nextPage = DIR_JSP + "/user/insertComplete.jsp";
+					} catch (DAOException e) {
+						e.printStackTrace();
+						// リクエストスコープにエラーメッセージを設定
+						request.setAttribute("error", e.getMessage());
+						// 遷移先URLを設定
+						nextPage = DIR_JSP + "/error/systemerror.jsp";
+					}
+				}
+			}
 		}
 		this.gotoPage(request, response, nextPage);
+	}
+
+	/**
+	 * 利用者IDから利用者カード番号を生成する。
+	 * @param id 利用者ID
+	 * @return 利用者カード番号
+	 */
+	private String createCardNumber(int id) {
+		String uid_prefix = "1205";
+		return uid_prefix + DataUtils.zeroPadding(4, id);
 	}
 
 }

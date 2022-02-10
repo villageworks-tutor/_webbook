@@ -37,7 +37,7 @@ public class MemberDAO extends BaseDAO {
 							 + "SET name = ?, zipcode = ?, address = ?, phone = ?, email = ?, birthday = ?, privilege = ?, updated_at = ? "
 							 + "WHERE id = ?";
 	private static final String
-		SQL_INSERT = "INSERT INTO memer (id, card, name, zicode, address, phone, email, bithday, privilege) "
+		SQL_INSERT = "INSERT INTO member (id, card, name, zipcode, address, phone, email, birthday, privilege) "
 							 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String
 		SQL_DELETE = "DELETE FROM member "
