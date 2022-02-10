@@ -32,7 +32,7 @@ public class AuthServlet extends BaseServlet {
 	private static final String ACTION_LOGIN = "login";
 	private static final String ACTION_LOGOUT = "logout";
 	private static final String URL_LOGIN = DIR_JSP + "/login.jsp";
-	private static final String URL_MAIN = DIR_JSP + "/main.jsp";
+	private static final String URL_MAIN = "/MenuServlet";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -44,6 +44,14 @@ public class AuthServlet extends BaseServlet {
 		String message = "";
 		if (DataUtils.isNull(nextPage) || DataUtils.isEmpty(action)) {
 			nextPage = URL_LOGIN;
+		} else if (action.equals("main")) {
+			HttpSession session = request.getSession(false);
+			if (DataUtils.isNull(session)) {
+				request.setAttribute("message", "不正な操作をしました。");
+				nextPage = URL_LOGIN;
+			} else {
+				nextPage = URL_MAIN;
+			}
 		} else if (action.equals(ACTION_LOGIN)) {
 			String card = request.getParameter(PARAM_KEY_CARD);
 			String password = request.getParameter(PARAM_KEY_PASSWORD);
@@ -72,8 +80,10 @@ public class AuthServlet extends BaseServlet {
 			}
 		} else if (action.equals(ACTION_LOGOUT)) {
 			HttpSession session = request.getSession(false);
-			session.removeAttribute(SESSION_KEY_AUTH);
-			session.invalidate();
+			if (!DataUtils.isNull(session)) {
+				session.removeAttribute(SESSION_KEY_AUTH);
+				session.invalidate();
+			}
 			nextPage = URL_LOGIN;
 			message = "ログアウトしました。";
 			request.setAttribute(REQUEST_KEY_MESSAGE, message);

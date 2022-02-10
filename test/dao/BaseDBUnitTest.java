@@ -1,11 +1,14 @@
 package dao;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
 
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 
@@ -57,6 +60,35 @@ public class BaseDBUnitTest {
 		if (this.dbunitConnection != null) this.dbunitConnection.close();
 		// JDBCコネクションの破棄
 		if (this.jdbcConnection != null) this.jdbcConnection.close();
+	}
+
+	/**
+	 * 更新系レコード操作の実行後に期待されるテーブルの状態を生成する。
+	 * @param targetFilepath 期待値を定義しているXMLファイルパス
+	 * @param targetTableName 期待値の対象テーブル名
+	 * @return 指定されたテーブルの期待値
+	 * @throws Exception
+	 */
+	public ITable createExpectedTable(String targetFilepath, String targetTableName) throws Exception {
+		File expectedXmlFile = new File(targetFilepath);
+		FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
+		IDataSet expectedDataset = builder.build(expectedXmlFile);
+		ITable expected = expectedDataset.getTable(targetTableName);
+		return expected;
+	}
+
+	/**
+	 * 更新系レコード操作の実行後の実際のテーブルの状態を生成する。
+	 * @param targettableName 操作対象テーブル名
+	 * @param excludedColumns 対象テーブルのうち比較に使用しない項目のリスト
+	 * @return 指定されたテーブルの実行値
+	 * @throws Exception
+	 */
+	public ITable createEctualTable(String targetTableName, String[] excludedColumns) throws Exception {
+		IDataSet idataset = this.dbunitConnection.createDataSet();
+		ITable actual = idataset.getTable(targetTableName);
+		actual = DefaultColumnFilter.excludedColumnsTable(actual, excludedColumns);
+		return actual;
 	}
 
 

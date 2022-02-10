@@ -89,6 +89,14 @@ form input[type="submit"], form button {
   color: tomato;
 }
 
+.required:after {
+  content: "✞";
+}
+
+.note {
+  font-size: 1.26rem;
+}
+
 #auth form {
   margin-left: 3.5rem;
 }
@@ -118,4 +126,24 @@ form input[type="submit"], form button {
 }
 #user #searchResult table tr td:first-child {
   text-align: center;
+}
+#user #updateEntry {
+  line-height: 2.4;
+}
+#user #updateEntry form input[name="zipcode"] {
+  margin-left: 0.35rem;
+  width: 5.95rem;
+}
+#user #updateEntry form input[name="phone"] {
+  width: 9.8rem;
+}
+#user #updateEntry form input[name="email"] {
+  width: 21rem;
+}
+#user #updateEntry form textarea {
+  width: 28rem;
+  height: 5.25rem;
+}
+#user #updateEntry form label {
+  margin: 0 1.05rem 0 0.35rem;
 }

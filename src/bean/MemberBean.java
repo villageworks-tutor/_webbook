@@ -2,6 +2,7 @@ package bean;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * memberテーブルの1レコードを管理するBean
@@ -21,6 +22,9 @@ public class MemberBean implements Serializable {
 	private String email;		// 電子メールアドレス
 	private Date birthday;	// 生年月日
 	private int privilege;	// 権限コード
+	private Timestamp signupAt;	// 登録日
+	private Timestamp updatedAt;	// 更新日
+	private Timestamp erasuredAt;	// 登録抹消日
 
 	/**
 	 * デフォルトコンストラクタ
@@ -195,19 +199,70 @@ public class MemberBean implements Serializable {
 		this.privilege = privilege;
 	}
 
+	/**
+	 * 登録日を取得する。
+	 * @return signupAt 登録日
+	 */
+	public Timestamp getSignupAt() {
+		return signupAt;
+	}
+
+	/**
+	 * 登録日を設定する。
+	 * @param signupAt 設定する登録日
+	 */
+	public void setSignupAt(Timestamp signupAt) {
+		this.signupAt = signupAt;
+	}
+
+	/**
+	 * 更新日を取得する。
+	 * @return updatedAt 更新日
+	 */
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
+
+	/**
+	 * 更新日を設定する。
+	 * @param updatedAt 設定する更新日
+	 */
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	/**
+	 * 登録抹消日を取得する。
+	 * @return erasuredAt 登録抹消日
+	 */
+	public Timestamp getErasuredAt() {
+		return erasuredAt;
+	}
+
+	/**
+	 * 登録抹消日を設定する。
+	 * @param erasuredAt 設定する登録抹消日
+	 */
+	public void setErasuredAt(Timestamp erasuredAt) {
+		this.erasuredAt = erasuredAt;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("MemberBean [");
-		builder.append("id=" + id + ", ");
-		builder.append("card=" + card + ", ");
-		builder.append("name=" + name + ", ");
-		builder.append("zipcode=" + zipcode + ", ");
-		builder.append("address=" + address + ", ");
-		builder.append("phone=" + phone + ", ");
-		builder.append("email=" + email + ", ");
-		builder.append("birthday=" + birthday + ", ");
-		builder.append("privilege=" + privilege + "]");
+		builder.append("id=" + this.id + ", ");
+		builder.append("card=" + this.card + ", ");
+		builder.append("name=" + this.name + ", ");
+		builder.append("zipcode=" + this.zipcode + ", ");
+		builder.append("address=" + this.address + ", ");
+		builder.append("phone=" + this.phone + ", ");
+		builder.append("email=" + this.email + ", ");
+		builder.append("birthday=" + this.birthday + ", ");
+		builder.append("privilege=" + this.privilege + ", ");
+		builder.append("signupAt=" + this.signupAt + ", ");
+		builder.append("updatedAt = " + this.updatedAt + ", ");
+		builder.append("erauredAt = " + this.erasuredAt + "]");
 		return builder.toString();
 	}
 
