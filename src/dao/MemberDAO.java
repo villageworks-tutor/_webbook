@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class MemberDAO extends BaseDAO {
 										 + "WHERE email = ?";
 	private static final String
 		SQL_UPDATE = "UPDATE member "
-							 + "SET name = ?, zipcode = ?, address = ?, phone = ?, email = ?, birthday = ?, privilege = ? "
+							 + "SET name = ?, zipcode = ?, address = ?, phone = ?, email = ?, birthday = ?, privilege = ?, updated_at = ? "
 							 + "WHERE id = ?";
 	private static final String
 		SQL_INSERT = "INSERT INTO memer (id, card, name, zicode, address, phone, email, bithday, privilege) "
@@ -195,6 +196,9 @@ public class MemberDAO extends BaseDAO {
 	 * @throws DAOException
 	 */
 	public int update(MemberBean member) throws DAOException {
+		// 現在日時を取得
+		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+		member.setUpdatedAt(currentTimestamp);
 		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_UPDATE);) {
 			// プレースホルダへのパラメータバインド
 			pstmt.setString(1, member.getName());
@@ -204,7 +208,8 @@ public class MemberDAO extends BaseDAO {
 			pstmt.setString(5, member.getEmail());
 			pstmt.setDate(6, member.getBirthday());
 			pstmt.setInt(7, member.getPrivilege());
-			pstmt.setInt(8, member.getId());
+			pstmt.setTimestamp(8, member.getUpdatedAt());
+			pstmt.setInt(9, member.getId());
 			// SQLを実行と成功した号数を取得
 			int row = pstmt.executeUpdate();
 			// 行数を返却

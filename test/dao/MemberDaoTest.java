@@ -9,6 +9,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +71,39 @@ class MemberDaoTest {
 			void tearDown() throws Exception {
 				// DBUit関連オブジェクトの破棄
 				this.shutdownDBUnitConnection();
+			}
+
+			@Test
+			@DisplayName("【Test-03】更新日が更新される")
+			void test_03() throws Exception {
+				// setup
+				Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+				// 比較書式は「yyyy-MM-dd」とする。
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				String expected = formatter.format(currentTimestamp);
+				// 更新対象クラスの利用者IDと電子メールドレスを設定
+				MemberBean target = new MemberBean();
+				target.setId(1);
+				target.setEmail("kenzo_kiyota@xcity.org");
+				// 更新対象となるmemberBeanのインスタンス化
+				MemberBean member = new MemberBean();
+				member.setId(target.getId());
+				member.setCard("12050662");
+				member.setName("清田 健蔵");
+				member.setZipcode("277-0851");
+				member.setAddress("千葉県柏市向原町1-17-13");
+				member.setPhone("080-3440-9925");
+				member.setEmail(target.getEmail());
+				member.setBirthday(Date.valueOf("2001-02-01"));
+				member.setPrivilege(2);
+
+				// execute
+				sut.update(member);
+				member = new MemberBean();
+				member = sut.getByPrimaryKey(target.getId());
+				String actual = formatter.format(member.getUpdatedAt());
+				// verify
+				assertThat(actual, is(expected));
 			}
 
 			@Test

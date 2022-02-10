@@ -25,7 +25,7 @@ public class MenuServlet extends BaseServlet {
 	private static final String ACTION_MAIN = "main";
 	private static final String ACTION_LOGIN = "login";
 	private static final String URL_ERROR = DIR_JSP + "/error/systemerror.jsp";
-	private static final String URL_MAIN = "/MenuServlet";
+	private static final String URL_MAIN = DIR_JSP + "/main.jsp";
 
 	/**
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)

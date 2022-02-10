@@ -56,13 +56,13 @@
 				<tr>
 					<th>登録日</th>
 					<td>
-						<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${sessionScope.member.signupAt}" />
+						<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${sessionScope.member.signupAt}" />
 					</td>
 				</tr>
 				<tr>
 					<th>最終更新日</th>
 					<td>
-						<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${sessionScope.member.updatedAt}" />
+						<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${sessionScope.member.updatedAt}" />
 					</td>
 				</tr>
 				<tr>
