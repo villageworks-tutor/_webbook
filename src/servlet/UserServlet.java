@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -13,11 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.AuthBean;
 import bean.MemberBean;
+import dao.AuthDAO;
 import dao.DAOException;
 import dao.DbUtils;
 import dao.MemberDAO;
 import jp.villageworks.core.DataUtils;
+import jp.villageworks.core.DataValidator;
 
 /**
  * Servlet implementation class UserServlet
@@ -178,6 +182,10 @@ public class UserServlet extends BaseServlet {
 			if (DataUtils.isEmpty(name)) {
 				errors.add("利用者名を入力してください。");
 			}
+			String password = request.getParameter("password");
+			if (!DataValidator.isRequired(password)) {
+				errors.add("パスワードを入力してください。");
+			}
 			String zipcode = request.getParameter("zipcode");
 			String address = request.getParameter("address");
 			String phone = request.getParameter("phone");
@@ -192,7 +200,9 @@ public class UserServlet extends BaseServlet {
 			String privilege = request.getParameter("privilege");
 
 			if (errors.size() > 0) {
+				MemberBean member = new MemberBean(0, "", name, zipcode, address, phone, email, Date.valueOf(birthday), 0);
 				request.setAttribute("errors", errors);
+				request.setAttribute("member", member);
 				nextPage = DIR_JSP + "/user/insertEntry.jsp";
 			} else {
 				HttpSession session = request.getSession();
@@ -206,6 +216,7 @@ public class UserServlet extends BaseServlet {
 						session.setAttribute("member", member);
 					}
 					member.setName(name);
+					member.setPassword(password);
 					member.setZipcode(zipcode);
 					member.setAddress(address);
 					member.setPhone(phone);
@@ -230,7 +241,11 @@ public class UserServlet extends BaseServlet {
 					nextPage = DIR_JSP + "systemerror.jsp";
 				} else {
 					try {
-						MemberDAO dao = new MemberDAO(DbUtils.getConnection());
+						// データベースに接続
+						Connection conn = DbUtils.getConnection();
+
+						// 利用者情報の登録
+						MemberDAO dao = new MemberDAO(conn);
 						// 新規利用者IDを取得
 						int id = dao.getSequence("member_id_seq");
 						// 新規利用者番号を生成
@@ -240,6 +255,18 @@ public class UserServlet extends BaseServlet {
 						member.setCard(card);
 						// 新規登録を実行
 						dao.insert(member);
+
+						// 認証情報を登録
+						AuthBean auth = new AuthBean();
+						auth.setCard(member.getCard());
+						auth.setPrivilege(member.getPrivilege());
+						auth.setPassword(member.getPassword(), card);
+						AuthDAO authDao = new AuthDAO(conn);
+						authDao.insert(auth);
+						// 利用者インスタンスのパスワードを初期化
+						member.setPassword("");
+
+						// 画面遷移
 						request.setAttribute("member", member);
 						nextPage = DIR_JSP + "/user/insertComplete.jsp";
 					} catch (DAOException e) {

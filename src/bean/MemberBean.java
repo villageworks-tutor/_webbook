@@ -13,16 +13,17 @@ public class MemberBean implements Serializable {
 	/**
 	 * クラスメンバ
 	 */
-	private int id;					// 利用者ID
-	private String card;		// 利用者カード番号
-	private String name;		// 利用者氏名
-	private String zipcode;	// 郵便番号
-	private String address;	// 住所
-	private String phone;		// 電話番号
-	private String email;		// 電子メールアドレス
-	private Date birthday;	// 生年月日
-	private int privilege;	// 権限コード
-	private Timestamp signupAt;	// 登録日
+	private int id;								// 利用者ID
+	private String card;					// 利用者カード番号
+	private String name;					// 利用者氏名
+	private String zipcode;				// 郵便番号
+	private String address;				// 住所
+	private String phone;					// 電話番号
+	private String email;					// 電子メールアドレス
+	private Date birthday;				// 生年月日
+	private int privilege;				// 権限コード
+	private String password;			// パスワード
+	private Timestamp signupAt;		// 登録日
 	private Timestamp updatedAt;	// 更新日
 	private Timestamp erasuredAt;	// 登録抹消日
 
@@ -197,6 +198,22 @@ public class MemberBean implements Serializable {
 	 */
 	public void setPrivilege(int privilege) {
 		this.privilege = privilege;
+	}
+
+	/**
+	 * パスワードを取得する。
+	 * @return password パスワード
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * パスワードを設定する
+	 * @param password 設定するパスワード
+	 */
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	/**

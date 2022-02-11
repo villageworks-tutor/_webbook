@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.AuthBean;
 import dao.AuthDAO;
+import dao.DAOException;
 import dao.DbUtils;
 import jp.villageworks.core.DataUtils;
 
@@ -53,30 +54,34 @@ public class AuthServlet extends BaseServlet {
 				nextPage = URL_MAIN;
 			}
 		} else if (action.equals(ACTION_LOGIN)) {
-			String card = request.getParameter(PARAM_KEY_CARD);
-			String password = request.getParameter(PARAM_KEY_PASSWORD);
-			AuthBean target = new AuthBean(card, password);
-			AuthDAO dao = new AuthDAO(DbUtils.getConnection());
-			AuthBean auth = dao.getAuth(target);
-			if (DataUtils.isNull(auth)) {
-				nextPage = URL_LOGIN;
-				message = "ログインできませんでした。";
-				request.setAttribute(REQUEST_KEY_MESSAGE, message);
-			} else {
-				// セッションを取得
-				HttpSession session = request.getSession();
-				AuthBean login = (AuthBean) session.getAttribute(SESSION_KEY_AUTH);
-				if (!DataUtils.isNull(login)) {
-					session.removeAttribute(SESSION_KEY_AUTH);
-					session.invalidate();
+			try {
+				String card = request.getParameter(PARAM_KEY_CARD);
+				String password = request.getParameter(PARAM_KEY_PASSWORD);
+				AuthBean target = new AuthBean(card, password);
+				AuthDAO dao = new AuthDAO(DbUtils.getConnection());
+				AuthBean auth = dao.getAuth(target);
+				if (DataUtils.isNull(auth)) {
 					nextPage = URL_LOGIN;
 					message = "ログインできませんでした。";
 					request.setAttribute(REQUEST_KEY_MESSAGE, message);
 				} else {
-					nextPage = URL_MAIN;
-					// ログイン情報をセッションに登録
-					session.setAttribute(SESSION_KEY_AUTH, auth);
+					// セッションを取得
+					HttpSession session = request.getSession();
+					AuthBean login = (AuthBean) session.getAttribute(SESSION_KEY_AUTH);
+					if (!DataUtils.isNull(login)) {
+						session.removeAttribute(SESSION_KEY_AUTH);
+						session.invalidate();
+						nextPage = URL_LOGIN;
+						message = "ログインできませんでした。";
+						request.setAttribute(REQUEST_KEY_MESSAGE, message);
+					} else {
+						nextPage = URL_MAIN;
+						// ログイン情報をセッションに登録
+						session.setAttribute(SESSION_KEY_AUTH, auth);
+					}
 				}
+			} catch (DAOException e) {
+				e.printStackTrace();
 			}
 		} else if (action.equals(ACTION_LOGOUT)) {
 			HttpSession session = request.getSession(false);

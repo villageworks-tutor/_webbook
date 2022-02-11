@@ -27,6 +27,12 @@
 					</td>
 				</tr>
 				<tr>
+					<th class="required">パスワード</th>
+					<td>
+						<input type="text" name="password" value="${requestScope.auth.password}" />
+					</td>
+				</tr>
+				<tr>
 					<th>住所</th>
 					<td>
 						〒<input type="text" name="zipcode" value="${requestScope.member.zipcode}" /><br />
