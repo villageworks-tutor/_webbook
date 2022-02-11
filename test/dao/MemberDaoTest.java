@@ -37,6 +37,7 @@ class MemberDaoTest {
 	 */
 	private static final String PATH_DEFAULT_USERS = BaseDBUnitTest.DIR_FIXTURES + "/member/default_member.xml";
 	private static final String PATH_EXPECTED_UPDATE_01 = BaseDBUnitTest.DIR_FIXTURES + "/member/expected_update_member_01.xml";
+	private static final String PATH_EXPECTED_INSERT = BaseDBUnitTest.DIR_FIXTURES + "/member/expected_insert_member.xml";
 
 	private static final String TARGET_TABLE = "member";
 	private static final String[] EXCLUDED_COLUMNS = {"id", "signup_at", "updated_at", "erasured_at"};
@@ -57,6 +58,50 @@ class MemberDaoTest {
 	@Nested
 	@DisplayName("● 更新系メソッドのテスト ●")
 	class updates extends BaseDBUnitTest {
+
+		@Nested
+		@DisplayName("MemberDAO#insertメソッドのテストクラス")
+		class insert extends BaseDBUnitTest {
+			@BeforeEach
+			void setUp() throws Exception {
+				// DBUit関連オブジェクトの取得
+				this.createDBUnitConnections(PATH_DEFAULT_USERS);
+			}
+			@AfterEach
+			void tearDown() throws Exception {
+				// DBUit関連オブジェクトの破棄
+				this.shutdownDBUnitConnection();
+			}
+
+			@Test
+			@DisplayName("【Test-01】利用者番号「12057327」の利用者を登録できる")
+			void test_01() throws Exception {
+			 	// setup
+				int id = sut.getSequence("member_id_seq");
+				MemberBean target = new MemberBean();
+				target.setId(id);
+				target.setCard("12057327");
+				target.setName("古橋 正美");
+				target.setZipcode("121-0807");
+				target.setAddress("東京都足立区伊興本町1-16伊興本町アパート406");
+				target.setPhone("090-4613-0336");
+				target.setEmail("yoshiko_shimada@ztvzw.frig.fhbl");
+				target.setBirthday(Date.valueOf("1970-10-08"));
+				target.setPrivilege(1);
+				// execute
+				sut.insert(target);
+
+				// テーブルの期待値を設定
+				ITable expected = super.createExpectedTable(PATH_EXPECTED_INSERT, TARGET_TABLE);
+				// テーブルの実行値を取得
+				ITable actual = super.createEctualTable(TARGET_TABLE, EXCLUDED_COLUMNS);
+
+				// verify
+				Assertion.assertEquals(expected, actual);
+
+			}
+
+		}
 
 		@Nested
 		@DisplayName("MemberDAO#updateメソッドのテストクラス")

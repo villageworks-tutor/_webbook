@@ -124,11 +124,13 @@ CREATE TABLE reserve (
 CREATE TABLE auth (
 	id 				    SERIAL,	-- シーケンス「auth_id_seq」として参照する
 	card 			    CHAR(8) UNIQUE NOT NULL,
+	privilege     SMALLINT NOT NULL,
 	password 	    CHAR(64) NOT NULL,
 	signup_at	 		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	erasured_at 	TIMESTAMP
 );
 ALTER TABLE auth ADD CONSTRAINT pk_auth PRIMARY KEY (id);
+ALTER table auth ADD CONSTRAINT fk_auth_privilege FOREIGN KEY (privilege) REFERENCES privilege (code);
 ALTER TABLE auth ADD CONSTRAINT fk_auth_card FOREIGN KEY (card) REFERENCES member (card);
 --ALTER TABLE auth ADD CONSTRAINT unique_sigin_in UNIQUE (signin_id, password);	-- ユーザIDとパスワードの組み合わせは一意である必要がある

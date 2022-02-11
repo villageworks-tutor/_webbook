@@ -12,6 +12,7 @@
 					<dt>問い合わせ先</dt>
 					<dd>info@x-city-library.org</dd>
 				</dl>
+				<p><a href="AuthServlet">ログインページへ</a></p>
 			</section>
 		</article>
 	</jsp:attribute>
