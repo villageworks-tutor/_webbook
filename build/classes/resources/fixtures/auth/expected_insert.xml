@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<!-- authテーブルの初期登録レコード群：memberテーブルの投入レコードに対応した認証レコード群 -->
+	<auth card='12050662' privilege="2" password='dc6d1427d39c787ca546abeccddc0ca01c3411a82b4a4493acdb251ac4dd1931' /><!-- ハッシュ変換元パスワード：usr2 -->
+	<auth card='12056692' privilege="1" password='31c191d73919df6a7928748abb781800efed72c335fd574b548bd5c83320960d' /><!-- ハッシュ変換元パスワード：usr1 -->
+	<auth card='12058021' privilege="2" password='583c1da8f27d6202a6ba4afed44ee6ceca416ed2a35ffb23de424d60632d2706' /><!-- ハッシュ変換元パスワード：usr3 -->
+	<auth card='12050001' privilege="2" password='58d8e6904b11c0d8a204b30ee33fd63342a2a7fa82951d20c7b7f0d163e04c82' /><!-- ハッシュ変換元パスワード：abc -->
+</dataset>
+

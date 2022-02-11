@@ -23,21 +23,22 @@ public class MemberDAO extends BaseDAO {
 	private static final String
 		SQL_GET_ALL = "SELECT id, card, name, zipcode, address, phone, email, birthday, privilege "
 								+ "FROM member "
+								+ "WHERE erasured_at IS null "
 								+ "ORDER BY card";
 	private static final String
 	SQL_GET_BY_PRIMARY_KEY = "SELECT id, card, name, zipcode, address, phone, email, birthday, privilege, signup_at, updated_at, erasured_at "
 												 + "FROM member "
-												 + "WHERE id = ?";
+												 + "WHERE id = ? AND erasured_at IS null ";
 	private static final String
 		SQL_GET_BY_EMAIL = "SELECT id, card, name, zipcode, address, phone, email, birthday, privilege "
 										 + "FROM member "
-										 + "WHERE email = ?";
+										 + "WHERE email = ? AND erasured_at IS null ";
 	private static final String
 		SQL_UPDATE = "UPDATE member "
 							 + "SET name = ?, zipcode = ?, address = ?, phone = ?, email = ?, birthday = ?, privilege = ?, updated_at = ? "
 							 + "WHERE id = ?";
 	private static final String
-		SQL_INSERT = "INSERT INTO memer (id, card, name, zicode, address, phone, email, bithday, privilege) "
+		SQL_INSERT = "INSERT INTO member (id, card, name, zipcode, address, phone, email, birthday, privilege) "
 							 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String
 		SQL_DELETE = "DELETE FROM member "
