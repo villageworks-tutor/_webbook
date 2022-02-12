@@ -46,6 +46,7 @@
 							<td>
 								<form action="UserServlet" method="post">
 									<input type="hidden" name="id" value="${pageScope.member.id}" />
+									<input type="hidden" name="key" value="${requestScope.key}" />
 									<button type="submit" name="action" value="updateEntry">更新</button>
 									<button type="submit" name="action" value="deleteConfirm">削除</button>
 								</form>

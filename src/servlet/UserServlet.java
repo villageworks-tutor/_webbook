@@ -52,6 +52,7 @@ public class UserServlet extends BaseServlet {
 				List<MemberBean> list = dao.getByEmail(key);
 				// リクエストスコープに結果を設定
 				request.setAttribute("members", list);
+				request.setAttribute("key", key);
 				if (list.size() == 0) {
 					// 検索結果の件数が0件の場合はメッセージを設定
 					message = "該当する利用者は見つかりませんでした。";
@@ -277,6 +278,56 @@ public class UserServlet extends BaseServlet {
 						nextPage = DIR_JSP + "/error/systemerror.jsp";
 					}
 				}
+			}
+		} else if (action.equals("deleteConfirm")) {
+			try {
+				// リクエストパラメータを取得
+				String id = request.getParameter("id");
+				String key = request.getParameter("key");
+				// MemberDAOをインスタンス化
+				MemberDAO dao = new MemberDAO(DbUtils.getConnection());
+				// 利用者IDによる利用者検索を実行
+				MemberBean member = dao.getByPrimaryKey(id);
+				// リクエストスコープに登録
+				request.setAttribute("member", member);
+				request.setAttribute("key", key);
+				nextPage = DIR_JSP + "/user/deleteConfirm.jsp";
+			} catch (DAOException e) {
+				e.printStackTrace();
+				// リクエストスコープにエラーメッセージを設定
+				request.setAttribute("error", e.getMessage());
+				// 遷移先URLを設定
+				nextPage = DIR_JSP + "/error/systemerror.jsp";
+			}
+		} else if (action.equals("deleteExecute")) {
+			// データベース接続オブジェクトを取得
+			Connection conn = DbUtils.getConnection();
+			try {
+				// リクエストスコープに登録
+				String id = request.getParameter("id");
+				// MemberDAOをインスタンス化
+				MemberDAO memberDao = new MemberDAO(conn);
+				// 利用者IDによる利用者検索を実行
+				MemberBean member = memberDao.getByPrimaryKey(id);
+				// AuthDAOをインスタンス化
+				AuthDAO authDao = new AuthDAO(conn);
+				// 削除する利用者の認証情報を取得
+				AuthBean auth = new AuthBean();
+				auth.setCard(member.getCard());
+				// 認証情報を削除
+				authDao.delete(auth);
+				// 利用sの削除
+				memberDao.deleteByPrimaryKey(member);
+				// リクエストスコープに登録
+				request.setAttribute("member", member);
+				// 遷移先URLの設定
+				nextPage = DIR_JSP + "/user/deleteComplete.jsp";
+			} catch (DAOException e) {
+				e.printStackTrace();
+				// リクエストスコープにエラーメッセージを設定
+				request.setAttribute("error", e.getMessage());
+				// 遷移先URLを設定
+				nextPage = DIR_JSP + "/error/systemerror.jsp";
 			}
 		}
 		this.gotoPage(request, response, nextPage);

@@ -41,12 +41,19 @@ public class MemberDAO extends BaseDAO {
 		SQL_INSERT = "INSERT INTO member (id, card, name, zipcode, address, phone, email, birthday, privilege) "
 							 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String
-		SQL_DELETE = "DELETE FROM member "
-							 + "WHERE id = ?";
+		SQL_DELETE_BY_PRIMARY_KEY = "DELETE FROM member "
+															+ "WHERE id = ?";
 	private static final String
-		SQL_REMOVE = "UPDATE member "
-							 + "SET erasured_at = ?"
-							 + "WHERE id = ?";
+		SQL_DELETE_BY_CARD = "DELETE FROM member "
+											 + "WHERE card = ?";
+	private static final String
+		SQL_REMOVE_BY_PRIMARY_KEY = "UPDATE member "
+															+ "SET erasured_at = CURRENT_TIMESTAMP "
+															+ "WHERE id = ?";
+	private static final String
+		SQL_REMOVE_BY_CARD = "UPDATE member "
+											 + "SET erasured_at = CURRENT_TIMESTAMP "
+											 + "WHERE card = ?";
 
 	/**
 	 * コンストラクタ
@@ -255,11 +262,25 @@ public class MemberDAO extends BaseDAO {
 	 * @return 削除が成功した場合は1が返されるが、失敗した場合は例外が送出される。
 	 * @throws DAOException
 	 */
-	public int delete(MemberBean member) throws DAOException {
-		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_DELETE)) {
+	public int deleteByPrimaryKey(MemberBean member) throws DAOException {
+		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_DELETE_BY_PRIMARY_KEY)) {
 			// プレースホルダへのパラメータバインド
 			pstmt.setInt(1, member.getId());
-			// SQLを実行と成功した号数を取得
+			// SQLの実行と成功した行数を取得
+			int row = pstmt.executeUpdate();
+			// 行数を返却
+			return row;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの物理削除に失敗しました。");
+		}
+	}
+
+	public int deleteByCard(MemberBean member) throws DAOException {
+		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_DELETE_BY_CARD)) {
+			// プレースホルダへのパラメータバインド
+			pstmt.setString(1, member.getCard());
+			// SQLの実行と成功した行数を取得
 			int row = pstmt.executeUpdate();
 			// 行数を返却
 			return row;
@@ -275,11 +296,24 @@ public class MemberDAO extends BaseDAO {
 	 * @return 削除が成功した場合は1が返されるが、失敗した場合は例外が送出される。
 	 * @throws DAOException
 	 */
-	public int remove(MemberBean member) throws DAOException {
-		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_REMOVE)) {
+	public int removeByPrimaryKey(MemberBean member) throws DAOException {
+		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_REMOVE_BY_PRIMARY_KEY)) {
 			// プレースホルダへのパラメータバインド
-			pstmt.setTimestamp(1, member.getErasuredAt());
-			pstmt.setInt(2, member.getId());
+			pstmt.setInt(1, member.getId());
+			// SQLを実行と成功した号数を取得
+			int row = pstmt.executeUpdate();
+			// 行数を返却
+			return row;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの論理削除に失敗しました。");
+		}
+	}
+
+	public int removeByCard(MemberBean member) throws DAOException {
+		try (PreparedStatement pstmt = this.conn.prepareStatement(SQL_REMOVE_BY_CARD)) {
+			// プレースホルダへのパラメータバインド
+			pstmt.setString(1, member.getCard());
 			// SQLを実行と成功した号数を取得
 			int row = pstmt.executeUpdate();
 			// 行数を返却
