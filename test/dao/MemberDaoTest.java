@@ -22,6 +22,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import bean.AuthBean;
 import bean.MemberBean;
 import dao.matcher.EqualToMember;
 
@@ -38,6 +39,8 @@ class MemberDaoTest {
 	private static final String PATH_DEFAULT_USERS = BaseDBUnitTest.DIR_FIXTURES + "/member/default_member.xml";
 	private static final String PATH_EXPECTED_UPDATE_01 = BaseDBUnitTest.DIR_FIXTURES + "/member/expected_update_member_01.xml";
 	private static final String PATH_EXPECTED_INSERT = BaseDBUnitTest.DIR_FIXTURES + "/member/expected_insert_member.xml";
+	private static final String PATH_EXPECTED_DELETE = BaseDBUnitTest.DIR_FIXTURES + "/member/expected_delete.xml";
+	private static final String PATH_EXPECTED_REMOVE = BaseDBUnitTest.DIR_FIXTURES + "/member/expected_remove.xml";
 
 	private static final String TARGET_TABLE = "member";
 	private static final String[] EXCLUDED_COLUMNS = {"id", "signup_at", "updated_at", "erasured_at"};
@@ -45,10 +48,14 @@ class MemberDaoTest {
 	/** テスト対象クラス：system under test */
 	MemberDAO sut;
 
+	/** テスト補助変数 */
+	Connection conn;
+
 	@BeforeEach
 	void setUp() throws Exception {
 		// テスト対象クラスをインスタンス化
-		sut = new MemberDAO(TestDbUtils.getConnection());
+		conn = TestDbUtils.getConnection();
+		sut = new MemberDAO(conn);
 	}
 
 	@AfterEach
@@ -58,6 +65,131 @@ class MemberDaoTest {
 	@Nested
 	@DisplayName("● 更新系メソッドのテスト ●")
 	class updates extends BaseDBUnitTest {
+
+		/** テスト補助変数 */
+		AuthDAO authDao = null;
+
+		@Nested
+		@DisplayName("MemberDAO#delete系メソッドのテストクラス")
+		class delete extends BaseDBUnitTest {
+			@BeforeEach
+			void setUp() throws Exception {
+				// AuthDAOのインスタンス化
+				authDao = new AuthDAO(conn);
+				// DBUit関連オブジェクトの取得
+				this.createDBUnitConnections(PATH_DEFAULT_USERS);
+			}
+			@AfterEach
+			void tearDown() throws Exception {
+				// DBUit関連オブジェクトの破棄
+				this.shutdownDBUnitConnection();
+			}
+
+			@Test
+			@DisplayName("【Test-02】利用者ID「3」の利用者を物理削除できる")
+			void test_02() throws Exception {
+				// setup
+				int id = 3;
+				String card = "12058021";
+				MemberBean target = new MemberBean();
+				target.setId(id);
+				target.setCard(card);
+				AuthBean auth = new AuthBean();
+				auth.setCard(card);
+				// execute
+				authDao.delete(auth);
+				sut.deleteByPrimaryKey(target);
+
+				// テーブルの期待値を設定
+				ITable expected = super.createExpectedTable(PATH_EXPECTED_DELETE, "auth");
+				// テーブルの実行値を取得
+				ITable actual = super.createEctualTable("auth", EXCLUDED_COLUMNS);
+
+				// verify
+				Assertion.assertEquals(expected, actual);
+			}
+
+			@Test
+			@DisplayName("【Test-01】利用者ID「3」の利用者を物理削除できる")
+			void test_01() throws Exception {
+				// setup
+				int id = 3;
+				String card = "12058021";
+				MemberBean target = new MemberBean();
+				target.setId(id);
+				target.setCard(card);
+				AuthBean auth = new AuthBean();
+				auth.setCard(card);
+				// execute
+				authDao.delete(auth);
+				sut.deleteByPrimaryKey(target);
+
+				// テーブルの期待値を設定
+				ITable expected = super.createExpectedTable(PATH_EXPECTED_DELETE, TARGET_TABLE);
+				// テーブルの実行値を取得
+				ITable actual = super.createEctualTable(TARGET_TABLE, EXCLUDED_COLUMNS);
+
+				// verify
+				Assertion.assertEquals(expected, actual);
+			}
+		}
+
+		@Nested
+		@DisplayName("MemberDAO#remove系メソッドのテストクラス")
+		class remove extends BaseDBUnitTest {
+			@BeforeEach
+			void setUp() throws Exception {
+				// DBUit関連オブジェクトの取得
+				this.createDBUnitConnections(PATH_DEFAULT_USERS);
+			}
+			@AfterEach
+			void tearDown() throws Exception {
+				// DBUit関連オブジェクトの破棄
+				this.shutdownDBUnitConnection();
+			}
+
+			@Test
+			@DisplayName("【Test-02】利用者番号「12058021」の利用者を論理削除できる")
+			void test_02() throws Exception {
+				// setup
+				String card = "12058021";
+				MemberBean target = new MemberBean();
+				target.setCard(card);
+				// execute
+				sut.removeByCard(target);
+				// verify
+				List<MemberBean> members = sut.getAll();
+				boolean actual = true;
+				for (MemberBean member : members) {
+					if (member.getCard().equals(card)) {
+						fail("論理削除のテストに失敗しました。");
+						actual = false;
+					}
+				}
+				assertThat(actual, is(true));
+			}
+
+			@Test
+			@DisplayName("【Test-01】利用者ID「3」の利用者を論理削除できる")
+			void test_01() throws Exception {
+				// setup
+				int id = 3;
+				MemberBean target = new MemberBean();
+				target.setId(id);
+				// execute
+				sut.removeByPrimaryKey(target);
+				// verify
+				List<MemberBean> members = sut.getAll();
+				boolean actual = true;
+				for (MemberBean member : members) {
+					if (member.getId() == id) {
+						actual = false;
+						break;
+					}
+				}
+				assertThat(actual, is(true));
+			}
+		}
 
 		@Nested
 		@DisplayName("MemberDAO#insertメソッドのテストクラス")
